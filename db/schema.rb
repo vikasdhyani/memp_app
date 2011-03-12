@@ -155,13 +155,13 @@ ActiveRecord::Schema.define(:version => 20110311190327) do
     t.integer   "plan_id",                          :precision => 38, :scale => 0,                  :null => false
     t.integer   "branch_id",                        :precision => 38, :scale => 0
     t.integer   "signup_months",                    :precision => 38, :scale => 0,                  :null => false
-    t.integer   "security_deposit",                 :precision => 38, :scale => 0,                  :null => false
-    t.integer   "registration_fee",                 :precision => 38, :scale => 0,                  :null => false
-    t.integer   "reading_fee",                      :precision => 38, :scale => 0,                  :null => false
-    t.integer   "discount",                         :precision => 38, :scale => 0,                  :null => false
-    t.integer   "advance_amt",                      :precision => 38, :scale => 0,                  :null => false
-    t.integer   "paid_amt",                         :precision => 38, :scale => 0,                  :null => false
-    t.integer   "overdue_amt",                      :precision => 38, :scale => 0,                  :null => false
+    t.decimal   "security_deposit",                                                                 :null => false
+    t.decimal   "registration_fee",                                                                 :null => false
+    t.decimal   "reading_fee",                                                                      :null => false
+    t.decimal   "discount",                                                                         :null => false
+    t.decimal   "advance_amt",                                                                      :null => false
+    t.decimal   "paid_amt",                                                                         :null => false
+    t.decimal   "overdue_amt",                                                                      :null => false
     t.integer   "payment_mode",                     :precision => 38, :scale => 0,                  :null => false
     t.string    "payment_ref",                                                                      :null => false
     t.string    "membership_no"
@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(:version => 20110311190327) do
     t.string    "remarks"
     t.timestamp "created_at",         :limit => 6
     t.timestamp "updated_at",         :limit => 6
-    t.integer   "coupon_amt",                       :precision => 38, :scale => 0
+    t.decimal   "coupon_amt"
     t.string    "coupon_no",          :limit => 20
     t.integer   "coupon_id",                        :precision => 38, :scale => 0
     t.string    "flag_reversed",                                                   :default => "N"
