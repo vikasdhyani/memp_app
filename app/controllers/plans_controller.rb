@@ -1,6 +1,7 @@
 class PlansController < ApplicationController
   def index
-    branch = current_user.current_branch    
+    # for some reason cookie overflow comes without dup (TODO)
+    branch = user_session['current_branch'].dup
     
     # ordered by name of plans
     @plans = branch.plans.order('name')
