@@ -1,0 +1,80 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+        <div class="span-17">
+	<div class="span-17">
+		
+	  <% if @coupon.errors.any? %>
+	    <div id="error_explanation">
+	      <h3><%= pluralize(@coupon.errors.count, "error") %> occured while processing:</h3>
+
+	      <ul>
+	      <% @coupon.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+
+
+<%= form_for(@coupon) do |f| %>
+
+  <div class="span-17 heading">
+				Enter coupon Details
+			</div>
+
+         
+         <%= f.label :coupon_name %>
+				<%= f.text_field :name, :class => 'title simple', :maxlength => 100, :style => 'width:200px' %>
+     </div>
+     
+
+     <div >
+
+        <%= f.label "Coupon Amount" %>
+				<%= f.text_field :amount, :class => 'title simple', :maxlength => 100, :style => 'width:50px' %>
+				<%= f.label :discount %>
+				<%= f.text_field :discount, :class => 'title simple', :maxlength => 100, :style => 'width:50px' %>
+				<br/><br/>
+				<%= f.label :valid_from %>
+				<%= f.date_select :start_date, :class => 'title simple', :maxlength => 100, :style => 'width:25px' %>&nbsp;&nbsp;
+				<br/>
+				<%= f.label :valid_upto %>
+				<%= f.date_select :expiry_date, :class => 'title simple', :maxlength => 100, :style => 'width:25px' %>&nbsp;&nbsp;
+				<br/><br/>
+				</div>
+				
+				<hr/>
+      <div class="span-19">
+      <b>Check Plan(s) linked to this coupon : </b><br/><br/>
+      <% for plan in Plan.find(:all, :order => 'id') %>
+      <div class="span-6">
+      <span class="span-1"><%= check_box_tag "coupon[plan_ids][]", plan.id %></span>
+      <span class="span-4"><%= plan.name %></span>
+      </div>
+      <% end %>
+      </div>
+      
+      <hr/>
+      <div class="span-19">
+      <b>Check Branch(es) linked to this coupon : </b><br/><br/>
+      <% for branch in Branch.find(:all, :order => 'id') %>
+      <div class="span-6">
+      <span class="span-1"><%= check_box_tag "coupon[branch_ids][]", branch.id %></span>
+      <span class="span-4"><%= branch.name %></span>
+      </div>
+      <% end %>
+        <hr/>
+      </div>
+           
+			</div>
+			
+  <div class="span-19">
+    <%= f.submit %>
+       <br/>
+   <%= link_to 'Back', coupons_path %>
+  </div>
+
+<% end %>
+

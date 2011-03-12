@@ -1,0 +1,5 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');        
+<% end -%>
+
+<%= render 'form' %>

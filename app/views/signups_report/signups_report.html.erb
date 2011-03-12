@@ -1,0 +1,80 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');        
+
+        $(document).ready(function () {          
+          $('#signups_report').submit();
+
+          $('#query_text').focus();
+          $('#refresh_signups_report').attr('disabled', 'disabled');
+          
+          $('#query_text').focus(function(){
+            $('#refresh_signups_report').attr('disabled', 'disabled');
+            if($('#submit_query_text').attr('disabled')){
+              $('#submit_query_text').removeAttr('disabled');
+            }
+          });
+
+          $('#start_date_3i').focus(function(){ changeFocus(); });
+          $('#start_date_2i').focus(function(){ changeFocus(); });                    
+          $('#start_date_1i').focus(function(){ changeFocus(); });          
+          $('#end_date_3i').focus(function(){ changeFocus(); });                    
+          $('#end_date_2i').focus(function(){ changeFocus(); });                    
+          $('#end_date_1i').focus(function(){ changeFocus(); });
+
+          function changeFocus(){
+            $('#submit_query_text').attr('disabled', 'disabled');
+            if($('#refresh_signups_report').attr('disabled')){
+              $('#refresh_signups_report').removeAttr('disabled');
+            }
+          }
+
+        });        
+        
+<% end -%>
+
+<p style="font-size: 14px; font-family: arial; font-weight: bold;">Signups Report</p>
+
+<div style="width: 35%; float: left;">  
+  <%= form_tag('memberSearch', :remote => true, :id => 'memberSearchform') do -%>
+    
+      <%= text_field_tag 'query_text' %>
+      <%= submit_tag 'Search', :id => 'submit_query_text' %>
+    
+  <% end -%>
+  <div style="font-size: 10px">(Search all records on Member Card No. or Name)</div>
+</div>
+
+<div style="height:65px; background: #cecece; width: 1px; float: left;"></div>
+
+  <div style="padding-left: 30px; float: left; width: 60%;">
+  <%= form_tag('', :id => 'signups_report') do %>
+    
+      <div  style="font-weight: bold; float: left;">
+        Start : <%= date_select("start", "date",
+          :order => [:day, :month, :year]) %>
+      </div>
+
+      <div style="font-weight: bold; float: left; padding-left: 10px; padding-top: 5px;">
+        <%= hidden_field_tag(:branch_id, user_session['current_branch'].id) %>
+        <%= submit_tag 'Refresh', :id => 'refresh_signups_report' %>
+      </div>
+
+      <br/><br/>
+      <div style="font-weight: bold; float: left;">
+        End &nbsp;&nbsp;: <%= date_select("end", "date",
+          :order => [:day, :month, :year]) %>
+      </div>   
+
+      <div id="signups_report_msg"
+           style="float: right; padding-left: 30px; padding-top: 20px;
+           width: 200px;"></div>
+
+      <br/><br/>
+      <div style="font-size: 10px">(Search records Date wise)</div>
+    <% end -%>
+    </div>
+<hr/>
+  
+<div id="signups_report_details" style="height: 600px; width: 1000px; 
+     font-size: 10px; overflow: auto"></div>
+     

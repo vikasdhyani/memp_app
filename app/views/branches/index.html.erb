@@ -1,0 +1,9 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+<ol>
+	<% @branches.each do |branch| -%>
+		<li> <%= branch.name %> </li>
+	<% end -%>		
+</ol>

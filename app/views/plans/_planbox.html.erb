@@ -1,0 +1,46 @@
+<div  id = "plans_div" >
+<% @plans.each do |planObj| -%>
+	<div id="planlist_id">
+    <%= link_to('', :plan_id => planObj.id) do %>
+     <% if planObj.category == 'I'%>
+      <div class="planbox-indiv round">
+        <div style="float:left;">
+           <b>(<%= planObj.id %>)</b>
+        </div>
+        <div style="float:right;">
+          <% if planObj.fast_moving_plans == 'Y' %>
+            <%= image_tag 'spinstar.gif', :size => "15x15", :alt => "Fast Moving Plans"%>
+          <% end %>
+        </div>
+        <br/>
+        <%= planObj.name %>
+      </div>
+     <%elsif planObj.category == 'C'%>
+      <div class="planbox-corp round">
+        <div style="float:left;">
+           <b>(<%= planObj.id %>)</b>
+        </div>
+        <div style="float:right;">
+          <% if planObj.fast_moving_plans == 'Y' %>
+            <%= image_tag 'spinstar.gif', :size => "15x15", :alt => "Fast Moving Plans"%>
+                    <% end %>
+        </div><br/>
+        <%= planObj.name %>
+      </div>
+     <%else%>
+      <div class="planbox-od round">
+        <div style="float:left;">
+           <b>(<%= planObj.id %>)</b>
+        </div>
+        <div style="float:right;">
+          <% if planObj.fast_moving_plans == 'Y' %>
+            <%= image_tag 'spinstar.gif', :size => "15x15", :alt => "Fast Moving Plans"%>
+                    <% end %>
+        </div><br/>
+        <%= planObj.name %>
+      </div>
+    <% end %>
+  <% end %>
+	</div>
+<% end -%>
+</div>

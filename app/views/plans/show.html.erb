@@ -1,0 +1,76 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+<div>
+  <h3>Plan Details for : <%= @plan.name %></h3>
+  <ul><li><%= link_to 'Back to Plan Listing', plans_overview_path %></li></ul>
+
+  <div class="span-10">
+    <table>
+      <tr>
+        <td><b>Start Date</b></td><td><%= @plan.start_date.strftime("%d-%m-%Y")%> </td>
+      </tr>
+      <tr>
+        <td><b>Expiry Date</b></td><td><%= @plan.expiry_date.strftime("%d-%m-%Y")%> </td>
+      </tr>
+      <tr>
+        <td><b>Security Deposit</b></td><td><%= @plan.security_deposit%> </td>
+      </tr>
+      <tr>
+        <td><b>Registration Fee</b></td><td><%= @plan.registration_fee%> </td>
+      </tr>
+      <tr>
+        <td><b>Reading Fee</b></td><td><%= @plan.reading_fee%> </td>
+      </tr>
+      <tr>
+        <td><b>Magazine Fee</b></td><td><%= @plan.magazine_fee%> </td>
+      </tr>
+      <tr>
+        <td><b>Number of Books</b></td><td><%= @plan.num_books %> </td>
+      </tr>
+      <tr>
+        <td><b>Number of Magazines</b></td><td><%= @plan.num_magazines %> </td>
+      </tr>
+      <tr>
+        <td><b>Book Return in days</b></td><td><%= @plan.book_return_days %> </td>
+      </tr>
+      <tr>
+        <td><b>Mandatory Months</b></td><td><%= @plan.mandatory_months %> </td>
+      </tr>
+      <tr>
+        <td><b>Reading Limit</b></td><td><%= @plan.reading_limit %> </td>
+      </tr>
+      <tr>
+        <td><b>Subscription</b></td><td><%= @plan.subscription %> </td>
+      </tr>
+      <tr>
+        <td><b>Frequency</b></td><td><%= @plan.frequency %> </td>
+      </tr>
+      <tr>
+        <td><b>Category</b></td><td><%= @plan.category %> </td>
+      </tr>
+      <tr>
+        <td><b>Home Delivery</b></td><td><%= @plan.home_delivery %> </td>
+      </tr>
+      <tr>
+        <td><b>Limit Basis</b></td><td><%= @plan.limit_basis %> </td>
+      </tr>
+      <tr>
+        <td><b>Restricted to Branch</b></td><td><%= @plan.restricted_to_branch %> </td>
+      </tr>
+      <tr>
+        <td><b>Allow Renewal</b></td><td><%= @plan.allow_renewal %> </td>
+      </tr>
+      <tr>
+        <td><b>Fast Moving Plans</b></td><td><%= @plan.fast_moving_plans %> </td>
+      </tr>
+      <tr>
+        <td><b>Created By</b></td><td><%= @plan.created_by %> </td>
+      </tr>
+      <tr>
+        <td><b>Modified By</b></td><td><%= @plan.modified_by %> </td>
+      </tr>
+    </table>
+  </div>
+</div>

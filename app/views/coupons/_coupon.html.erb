@@ -1,0 +1,47 @@
+     <div class="span-17 heading">
+				Coupon Details
+			</div>
+			
+			 <div class="span-8">
+			  <table>
+			    <tr>
+			     <td><b>Name:</b></td>
+			     <td><%= @coupon.name %></td>
+			    </tr>
+			    <tr>
+			     <td><b>Coupon Amount:</b></td>
+			     <td><%= @coupon.amount %> Rs.</td>
+			    </tr>
+			    <tr>
+			     <td><b>Discount Amount:</b></td>
+			     <td><%= @coupon.discount %> Rs.</td>
+			    </tr>
+			    <tr>
+			     <td><b>Valid From:</b></td>
+			     <td><%= @coupon.start_date.strftime("%d-%m-%Y") %></td>
+			    </tr>
+			    
+			    <tr>
+			     <td><b>Valid Till:</b></td>
+			     <td><%= @coupon.expiry_date.strftime("%d-%m-%Y") %></td>
+			    </tr>		
+			    <tr>
+			     <td><b>Associated Plans:</b></td>
+			     
+			     <td>
+			     <ol><% for plan in @coupon.plans%><li><%= plan.name %></li><%end%></ol></td>
+			     
+			    </tr>
+			     <tr>
+			     <td><b>Associated Branches:</b></td>
+			     
+			     <td>
+			     <ol><% for branch in @coupon.branches%><li><%= branch.name %></li><%end%></ol></td>
+			     
+			    </tr>	    
+			  </table>
+			  
+			   <%= link_to 'Edit', edit_coupon_path(coupon) %> | <%= link_to 'Back', coupons_path %>
+         
+      </div> 
+

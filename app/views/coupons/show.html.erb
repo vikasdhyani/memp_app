@@ -1,0 +1,7 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+<div class='span-10'>
+	<%= render 'coupon' %>
+</div>

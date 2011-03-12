@@ -1,0 +1,88 @@
+<%= javascript_tag :defer => 'defer' do-%>
+  $(document).ready(function(){
+    var div_rm = '#div_duration_' + $('#sgnp_mnths').val();
+    var default_class = 'plan round';
+    var curr_class = 'plan current round';
+    var plan_freq = $('#freq').val();
+    if (plan_freq == "M"){
+    $(div_rm).removeClass(default_class).addClass(curr_class);
+    }
+    else{
+    $(div_rm).removeClass(default_class);
+    }
+  });
+<% end -%>
+
+ <div id = "plan_duration_css_id">
+
+ <div id = "duration_div">
+    <div  class="plan-buttonpanel round">
+        <%= hidden_field_tag 'sgnp_mnths', @signupmonths %>
+        <%= hidden_field_tag 'freq', @plan.frequency %>
+      <% Rebate.find_all_by_category(@plan.rebate_category).each do |rebate| %>
+      <div id = '<%="div_duration_#{rebate.membership_months}"%>' class = "plan round">
+
+      <%= link_to find_duration(rebate.membership_months), '', :signup_months => rebate.membership_months, :plan_id => @plan.id, :class=>'current-plan' %>
+      </div>
+      <% end -%>
+
+    </div>
+ </div>
+
+	<div class="span-6" id = "planbox">
+  <%= link_to :controller => 'signups', :action => 'new', :signup_months => @signupmonths, :plan_id => @plan.id  do -%>
+		<div id = "details_div" class="planbox round">
+			<span class="planbox-title"><%= @plan.name %></span>
+          <% if @plan.frequency != "Y" %>
+			<span class="WebRupee planbox-rupee-symbol">Rs</span>
+			<span class="planbox-rupee"><%= rupee_part(effective_reading_fee(@plan.monthly_amount, @signupmonths)) %></span>
+			<span class="planbox-paise"><%= paise_part(effective_reading_fee(@plan.monthly_amount, @signupmonths)) %></span>
+			<span> /
+				<% if @plan.subscription -%>
+					month
+				<% else %>
+					book
+				<% end -%>
+				</span><br/>
+          <% end %>
+			<% if @plan.subscription && @plan.frequency=="M" %>
+				<div class="planbox-freemonths"><%= pluralize(free_months(@signupmonths), 'free month') %></div>
+			<% else %>
+				<div class="planbox-freemonths"><br/></div>
+			<% end %>
+			<hr/>
+			<div class='planbox-fees'>
+				<span>Security Deposit: <span style='float:right'><%= @plan.security_deposit %></span></span><br/>
+				<% if @plan.registration_fee > 0 -%>
+					<span>Registration Charges: <span style='float:right'><%= @plan.registration_fee %></span></span><br/>
+				<% else %>
+					<span>No Registration Charges!!</span>
+				<% end -%>
+         <br/>
+        <span>Amount Payable: <span style='float:right'><b><%= @totalamount %></b></span></span><br/>
+			</div>
+			<hr/>
+			<% if @plan.reading_limit > 0 -%>
+				<div>Return within <%= pluralize(@plan.reading_limit, 'month') %></div>
+			<% else %>
+				<div>No Time Limit</div>
+			<% end -%>
+			<% if @plan.subscription %>
+				<hr/><div><%= pluralize(@plan.num_books, 'Book') %></div>
+				<% if @plan.num_magazines > 0 %>
+					<hr/><div><%= pluralize(@plan.num_magazines, 'Magazine') %></div>
+				<% end -%>
+			<% end -%>
+		</div>
+    <%end%>
+
+  <br/>
+  <div id = "backtoplans_div" style = 'text-align:center;'>
+    <%= link_to 'Back to Plans?','' %>
+  </div>
+  <br/>
+  <br/>
+
+  </div>
+
+ </div>

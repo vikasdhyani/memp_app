@@ -1,0 +1,47 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+        <div>
+          <h3>Plan listing</h3>
+          <ul>
+            <li><%= link_to 'Add New Plan?', new_plan_path %></li>
+            <li><%= link_to 'Back To Plans', plans_path %></li>
+          </ul>
+
+          <table>
+            <thead>
+              <tr>                
+                  <th>Name</th>
+                  <th>Start Date</th>
+                  <th>Expiry Date</th>
+                  <th>Security Deposit</th>
+                  <th>Registration Fee</th>
+                  <th>Reading Fee</th>
+                  <th>Magazine Fee</th>
+                  <th>More Details</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                  <!-- <th>Discontinue</th> -->
+              </tr>          
+            </thead>
+
+            <tbody>
+              <% @planlist.each do |pl| %>
+              <tr>                
+                  <td><%= pl.name %></td>
+                  <td><%= pl.start_date.strftime("%d-%m-%Y") %></td>
+                  <td><%= pl.expiry_date.strftime("%d-%m-%Y") %></td>
+                  <td><%= pl.security_deposit %></td>
+                  <td><%= pl.registration_fee %></td>
+                  <td><%= pl.reading_fee %></td>
+                  <td><%= pl.magazine_fee %></td>
+                  <td><%= link_to 'More Details', pl %></td>
+                  <td><%= link_to 'Edit', edit_plan_path(pl) %></td>
+                  <td><%= link_to 'Delete', pl, :confirm => 'Are you Sure?', :method => 'delete' %></td>
+                  
+              </tr>
+              <% end -%>
+            </tbody>
+          </table>
+        </div>

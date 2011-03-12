@@ -1,0 +1,193 @@
+<div class="span-17">
+	<div class="span-17">
+
+<%= form_for(@plan) do |f| %>
+  <% if @plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@plan.errors.count, "error") %> prohibited this plan from being saved:</h2>
+
+      <ul>
+      <% @plan.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="span-17 heading">
+      Enter Plan Details
+  </div>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, :class => 'title simple', :maxlength => 50, :style => 'width:633px' %>
+  </div>
+  <br/>
+
+  <div>
+    <span class="span-2"><%= f.label :start_date %></span>
+    <%= f.date_select :start_date, :order => [:day, :month, :year] %>
+  </div>
+
+  <div>
+    <span class="span-2"><%= f.label :expiry_date %></span>
+    <%= f.date_select :expiry_date, :order => [:day, :month, :year] %>
+  </div>
+
+
+  <div style="float: left; width: 50%;">
+    <br/>
+  <div>
+    <span class="span-3">
+      <%= f.label :security_deposit %>
+    </span>
+
+    <%= f.text_field :security_deposit, :class => 'title simple', :maxlength => 7, :style => 'width:70px' %>
+  </div>
+  <div>
+    <span class="span-3">
+      <%= f.label :registration_fee %>
+    </span>
+
+    <%= f.text_field :registration_fee, :class => 'title simple', :maxlength => 7, :style => 'width:70px' %>
+  </div>
+  <div>
+    <span class="span-3">
+      <%= f.label :reading_fee %>
+    </span>
+
+    <%= f.text_field :reading_fee, :class => 'title simple', :maxlength => 7, :style => 'width:70px' %>
+  </div>
+  <div>
+    <span class="span-3">
+      <%= f.label :magazine_fee %>
+    </span>
+
+    <%= f.text_field :magazine_fee, :class => 'title simple', :maxlength => 7, :style => 'width:70px' %>
+  </div>
+  <br/>
+
+  <div>
+    <span class="span-3">
+      <%= f.label :total_plan_fee %>
+    </span>
+    <div id="plan_total"></div>
+  </div>
+  </div>
+  <br/>
+
+  <div>
+    <span class="span-3">#Books</span>
+    <%= f.text_field :num_books, :class => 'title simple', :maxlength => 7, :style => 'width:40px' %>
+  </div>
+
+  <div>
+    <span class="span-3">#Magazines</span>
+    <%= f.text_field :num_magazines, :class => 'title simple', :maxlength => 7, :style => 'width:40px' %>
+  </div>
+
+  <div>
+    <span class="span-3">#Book Return days</span>
+    <%= f.text_field :book_return_days, :class => 'title simple', :maxlength => 4, :style => 'width:40px' %>
+  </div>
+
+  <div>
+    <span class="span-3">#Mandatory Months</span>
+    <%= f.text_field :mandatory_months, :class => 'title simple', :maxlength => 2, :style => 'width:40px' %>    
+  </div>  
+
+  <hr/>
+  <div style="float:left; width: 100%;">    
+    <div>
+      <span class="span-4"><%= f.label :subscription %></span>
+      <span class="span-3"><%= f.radio_button "subscription", "1", {:checked => true} %>  Yes</span>
+      <span class="span-3"><%= f.radio_button "subscription", "0" %>  No</span>
+    </div>
+    <br/><br/>
+
+    <div>
+        <span class="span-4"><%= f.label :reading_limit %></span>
+        <span class="span-3"><%= f.radio_button "reading_limit", "0", {:checked => true} %> Unlimited</span>
+        <span class="span-3"><%= f.radio_button "reading_limit", "1" %> Limited</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :frequency %></span>
+      <span class="span-3"><%= f.radio_button "frequency", "M", {:checked => true} %> Monthly</span>
+      <span class="span-3"><%= f.radio_button "frequency", "Y" %> Yearly</span>
+      <span class="span-3"><%= f.radio_button "frequency", "N" %> None</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :category %></span>
+      <span class="span-3"><%= f.radio_button "category", "I", {:checked => true} %> Individual</span>
+        <span class="span-3"><%= f.radio_button "category", "C" %> Corporate</span>
+        <span class="span-3"><%= f.radio_button "category", "A" %> On Demand</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :home_delivery %></span>
+      <span class="span-3"><%= f.radio_button "home_delivery", "1", {:checked => true} %> Yes</span>
+      <span class="span-3"><%= f.radio_button "home_delivery", "0" %> No</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :limit_basis %></span>
+      <span class="span-3"><%= f.radio_button "limit_basis", "M", {:checked => true} %> Monthly Limit</span>
+      <span class="span-3"><%= f.radio_button "limit_basis", "G" %> No Limit</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :restricted_to_branch %></span>
+      <span class="span-3"><%= f.radio_button "restricted_to_branch", "1" %> Yes</span>
+      <span class="span-3"><%= f.radio_button "restricted_to_branch", "0", {:checked => true} %> No</span>
+    </div>
+    <br/><br/>
+
+    <div>
+      <span class="span-4"><%= f.label :allow_renewal %></span>
+      <span class="span-3"><%= f.radio_button "allow_renewal", "Y", {:checked => true} %> Yes</span>
+        <span class="span-3"><%= f.radio_button "allow_renewal", "N" %> No</span>
+        <span class="span-3"><%= f.radio_button "allow_renewal", "B" %> Bulk</span>
+    </div>
+    <br/><br/>
+
+  </div>
+
+            <hr/>
+            <div class="span-19">
+              <b>Check Branch(es) linked to this plan : </b><br/><br/>
+              <% for branch in Branch.find(:all, :order => 'id') %>
+              <div class="span-6">
+                 <span class="span-1"><%= check_box_tag "plan[branch_ids][]", branch.id, @plan.branches.include?(branch) %></span>
+                 <span class="span-4"><%= branch.name %></span>
+              </div>
+             <% end %>
+            </div>
+
+              <hr/>
+              <div class="span-19">
+                <b>Check Coupon(s) linked to this plan : </b><br/><br/>
+                <% for coupon in Coupon.find(:all, :order => 'name') %>
+                <div class="span-6">
+                  <span class="span-1"><%= check_box_tag "plan[coupon_ids][]", coupon.id, @plan.coupons.include?(coupon) %></span>
+                  <span class="span-4"><%= coupon.name %></span>
+                </div>
+                <% end %>
+              </div>
+              <hr/>
+  
+  <div class="actions">
+    <%= f.submit %>
+    <span class="span-4"><%= link_to 'Back to Plan Listing', plans_overview_path %></span>
+  </div>
+  <% end %>
+
+          
+  </div>
+</div>

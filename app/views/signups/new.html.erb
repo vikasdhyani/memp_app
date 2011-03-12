@@ -1,0 +1,128 @@
+<%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+<% end -%>
+
+
+<div class="span-17">
+	<div class="span-17">
+		
+	  <% if @signup.errors.any? %>
+	    <div id="error_explanation">
+	      <h2><%= pluralize(@signup.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+	      <ul>
+	      <% @signup.errors.full_messages.each do |msg| %>
+	        <li><%= msg %></li>
+	      <% end %>
+	      </ul>
+	    </div>
+	  <% end %>
+		
+		
+		
+		<%= form_for @signup, :html => {:autocomplete => :off} do |f| -%>
+		
+			<%= f.hidden_field :signup_months %>
+			<%= f.hidden_field :plan_id %>
+			<div class="span-17 heading">
+				Enter Personal Details
+			</div>
+			
+			<div>
+				<%= f.label :name %>
+				<%= f.text_field :name, :class => 'title simple', :maxlength => 100, :style => 'width:626px' %>
+			</div>
+
+			<div>
+				<%= f.label :address %>
+				<%= f.text_field :address, :class => 'title simple', :maxlength => 100, :style => 'width:612px' %>
+			</div>
+
+			<div>
+				<%= f.label 'Phone' %>
+				<%= f.label '(M)'.capitalize() %> <%= f.telephone_field :mphone, :class => 'title simple', :maxlength => 10, :style => 'width:20%' %>
+				<%= f.label '(L)'.capitalize() %> <%= f.telephone_field :lphone, :class => 'title simple', :maxlength => 10, :style => 'width:20%' %>
+				<%= f.label :email %>
+				<%= f.text_field :email, :class => 'title simple', :maxlength => 100, :style => 'width:280px;' %>
+			</div>
+
+			<div>
+				<%= f.label 'Membership #' %>
+				<%= f.text_field :membership_no, :class => 'title simple', :maxlength => 7, :style => 'width:25%' %>
+                                <%= f.label 'Referred By' %>
+				<%= f.text_field :referrer_member_id, :class => 'title simple', :maxlength => 20, :style => 'width:18%' %>
+				<%= f.label 'Form #' %>
+				<%= f.text_field :application_no, :class => 'title simple', :maxlength => 20, :style => 'width:26%', :disabled => true %>
+			</div>
+
+                        <div>
+                          <% if @plan.category == 'C'%>
+                          <br/>
+                            <%= f.collection_select(:company_id, Company.find(:all), :id, :name, {:include_blank => 'Select Company'} ) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <%= f.label 'Employee Number' %>
+                            <%= f.text_field :employee_no, :class => 'title simple', :maxlength => 20, :style => 'width:48%' %>
+                          <% end %>
+                        </div>
+
+
+			<div class="span-17 heading" style='margin-top:25px'>
+				Enter Payment Details
+			</div>
+                        
+			<div>
+				<em>You are Signing up
+				<% if @plan.subscription -%> 
+					for <b><%= pluralize(@signup.signup_months, 'month') %> </b>
+				<% end -%>
+				for the <b><%= @plan.name %></b> plan. Changed your mind? <%= link_to 'Back to plans', :controller => "plans", :signUpMonths => @signup.signup_months %> .</em>
+			</div>
+
+                        <br/>
+                        <%if @plan.frequency == 'M'%>
+                          <div>Change Membership period to -
+                           <% Rebate.find_all_by_category(@plan.rebate_category).each do |rebate| %>
+                            <%= link_to find_duration(rebate.membership_months), :controller=>"signups", :action=>"new", :plan_id => @plan.id, :signup_months => rebate.membership_months %>&nbsp;&nbsp;
+                           <% end -%>
+                          </div>
+                        <% end %>
+
+			<div class='span-10'>
+				<% if @plan.coupons.length > 0 -%>
+				<div class='span-5' style='text-align:left'><%= f.collection_select(:coupon_id, @plan.coupons, :id, :name, {:include_blank => 'Select Discount Coupon'} ) %></div>
+				<% end -%>
+			</div>
+
+			<div class='span-10' id='payment_div'>
+				<%= render :partial => 'payment', :locals => { :plan => @plan, :signup_months => @signup.signup_months, :coupon_id => @signup.coupon_id } %>
+			</div>
+			
+			<hr/>
+			<div class='span-20'>
+					<div class='span-2'>Paid By</div>
+					<div class='span-4' style='text-align:left;display:none' id='signup_coupon_no_div'><%= 'Coupon:' %><%= f.text_field :coupon_no, :class => 'text simple', :style => 'width:80px;font-size:85%', :maxlength => 10 %></div>
+					<div class='span-10'>
+						Cash <%= f.radio_button :payment_mode, Signup::PAYMENT_MODES[:cash], {:checked => true} %>
+						<span>
+							Check <%= f.radio_button :payment_mode, Signup::PAYMENT_MODES[:check] %>
+							<span id='signup_check_div' style='display:none'>Check No: <%= f.text_field :check_no, :class => 'text simple', :style => 'width:100px;font-size:85%', :maxlength => 8 %></span>
+						</span>
+						<span>
+							Card <%= f.radio_button :payment_mode, Signup::PAYMENT_MODES[:card] %>
+							<span id='signup_card_div' style='display:none'>Card No: <%= f.text_field :card_no, :class => 'text simple', :style => 'width:50px;font-size:85%', :maxlength => 4 %></span>
+						</span>
+					</div>
+				<div class='span-4'>Paid Amount: <%= f.text_field :paid_amt, :class => 'text simple', :style => 'width:50px;font-size:85%', :maxlength => 8 %></div>
+			</div>
+			<hr/>
+			<div class='span-17'><%= f.submit %></div>
+		<% end -%>
+	</div>
+
+</div>
+<%= javascript_tag :defer => 'defer' do -%>
+	if ( $('#new_signup #signup_coupon_id').val() != '' )
+		$('#new_signup #signup_coupon_no_div').show();
+	else {
+		$('#new_signup #signup_coupon_no_div').hide();
+	};	
+<% end -%>			

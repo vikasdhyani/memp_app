@@ -1,0 +1,72 @@
+<%= form_for(@coupon) do |f| %>
+  <% if @coupon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@coupon.errors.count, "error") %> prohibited this coupon from being saved:</h2>
+
+      <ul>
+      <% @coupon.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+      <div class="span-17 heading">
+				Coupon Details
+			</div>
+			
+			 <div class="span-17">
+         <%= f.label :coupon_name %>
+				<%= f.text_field :name, :class => 'title simple', :maxlength => 100, :style => 'width:200px' %>
+      </div>
+
+     <div class="span-17">
+
+        <%= f.label "Coupon Amount" %>
+				<%= f.text_field :amount, :class => 'title simple', :maxlength => 100, :style => 'width:50px' %>
+				<%= f.label :discount %>
+				<%= f.text_field :discount, :class => 'title simple', :maxlength => 100, :style => 'width:50px' %>
+				<br/><br/>
+				<%= f.label :valid_from %>
+				<%= f.date_select :start_date, :class => 'title simple', :maxlength => 100, :style => 'width:25px' %>&nbsp;&nbsp;
+				<br/>
+				<%= f.label :valid_upto %>
+				<%= f.date_select :expiry_date, :class => 'title simple', :maxlength => 100, :style => 'width:25px' %>&nbsp;&nbsp;
+				<br/>
+				      <hr/>
+				</div>
+  
+     <div class="span-17">
+     
+       <div class="span-19">
+      <b>Check Plan(s) linked to this coupon : </b><br/><br/>
+      <% for plan in Plan.find(:all, :order => 'id') %>
+      <div class="span-6">
+      <span class="span-1"><%= check_box_tag "coupon[plan_ids][]", plan.id, @coupon.plans.include?(plan) %></span>
+      <span class="span-4"><%= plan.name %></span>
+      </div>
+      <% end %>
+      </div>
+      
+      <hr/>
+      <div class="span-19">
+      <b>Check Branch(es) linked to this coupon : </b><br/><br/>
+      <% for branch in Branch.find(:all, :order => 'id') %>
+      <div class="span-6">
+      <span class="span-1"><%= check_box_tag "coupon[branch_ids][]", branch.id, @coupon.branches.include?(branch) %></span>
+      <span class="span-4"><%= branch.name %></span>
+      </div>
+      <% end %>
+      </div>
+      <hr/>
+			</div>
+			
+			<br/>
+   
+  </div>
+  <div class="span-17">
+    <%= f.submit %><br/><br/>
+    <%= link_to 'Show', @coupon %> |
+<%= link_to 'Back', coupons_path %>
+  </div>
+<% end %>

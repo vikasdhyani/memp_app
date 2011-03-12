@@ -1,0 +1,9 @@
+ <%= javascript_tag :defer => 'defer' do -%>
+	$('#current_branch').html('<%= user_session['current_branch'].name %>');
+ <% end -%>
+        
+<div class="span-25 grid" style='text-align:center'>
+	<%= render :partial => 'planbox',  :locals => { :signUpMonths => params[:signUpMonths].to_i , :branch_id => user_session['current_branch'].id} %>
+</div>
+
+<div id = "plan_details_div"></div>
