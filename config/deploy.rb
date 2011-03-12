@@ -1,22 +1,46 @@
-set :application, "set your application name here"
-set :repository,  "set your repository location here"
+require 'bundler/capistrano'
 
-set :scm, :subversion
+set :application, "memp_app"
+set :repository,  "git://github.com/akil-rails/memp_app.git"
+
+set :scm, :git
+
+set :deploy_to, "/disk1/memp_app"
+set :user, 'rails'
+set :scm_username, 'akil_rails'
+set :use_sudo, false
+
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-role :web, "your web-server here"                          # Your HTTP server, Apache/etc
-role :app, "your app-server here"                          # This may be the same as your `Web` server
-role :db,  "your primary db-server here", :primary => true # This is where Rails migrations will run
-role :db,  "your slave db-server here"
+role :web, "74.86.131.195"                          # Your HTTP server, Apache/etc
+role :app, "74.86.131.195"                          # This may be the same as your `Web` server
+role :db,  "74.86.131.195", :primary => true # This is where Rails migrations will run
+# role :db,  "74.86.131.195"
 
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
 # these http://github.com/rails/irs_process_scripts
+  namespace :deploy do
+    task :copy_database_configuration do 
+      production_db_config = "/disk1/memp_app/database.yml" 
+      run "cp #{production_db_config} #{release_path}/config/database.yml"
+    end
+    after "deploy:update_code", "deploy:copy_database_configuration"
+  end
 
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+  namespace :deploy do
+    task :copy_mail_configuration do 
+      production_mail_config = "/disk1/memp_app/setup_mail.rb" 
+      run "cp #{production_mail_config} #{release_path}/config/initializers/setup_mail.rb"
+    end
+    after "deploy:update_code", "deploy:copy_mail_configuration"
+  end
+
+ namespace :deploy do
+   task :start do ; end
+   task :stop do ; end
+   task :restart, :roles => :app, :except => { :no_release => true } do
+     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+   end
+ end
+ 
