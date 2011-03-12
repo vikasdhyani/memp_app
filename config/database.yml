@@ -19,7 +19,7 @@
 
 development:
   adapter: oracle_enhanced
-  database: XE
+  database: OPAC
   username: memp
   password: memp
 
